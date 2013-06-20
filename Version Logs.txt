@@ -1,0 +1,38 @@
+Version 0.03
+October 12th 2012
+FIXED	error when trying to save maps larger than 50 x 10.
+
+
+Version 0.02
+October 12th 2012
+ADDED	error logs are saved to the main directory if maps don't load.
+
+
+Version 0.01
+October 03th 2012
+
+ADDED 	drop down box for map definitions.
+ADDED 	drop down box for tile size.
+ADDED 	labels for map definitions and tile size.
+ADDED 	load function for map definitions with error catching.
+ADDED 	load function for tilesize settings.
+ADDED 	save function for tilesize settings.
+FIXED 	no longer able to draw outside of the map to cause a crash.
+
+October 05th 2012
+REMOVED horizontal splitter that was used for the old display system.
+ADDED 	vertical splitter to aid with automatic resizing.
+ADDED 	form/display resizing.
+REMOVED Form.OnLoad event that was initializing the form.
+ADDED 	Form.OnShown event so that map is displayed when form is shown.
+FIXED 	drawing outside the display no longer draws on the map that isn't visible.
+FIXED 	saving write error, saving now works correctly.
+ADDED 	saveCurrentFile(string) function.
+ADDED	error if correct tiles are not present when loading a map.
+ADDED	error if file is not loaded correctly.
+ADDED	right click drop down menu on the tile list to open tile folder.
+
+October 12th 2012
+ADDED	function to get the map size.
+ADDED	variables to store map size.
+ADDED	new feature - any map size can be loaded.
