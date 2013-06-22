@@ -37,33 +37,43 @@ namespace Universal_Map_Editor
         private bool populateTileList()
         {
             string tileDirectory = (_workingDirectory + @"\tiles\");
-            filePaths = Directory.GetFiles(tileDirectory, "*.bmp");
-            tileImages = new Bitmap[filePaths.Length];
-            tileAssociation = new string[filePaths.Length];
 
-            for (int i = 0; i < filePaths.Length; i++)
+            if (Directory.Exists(tileDirectory))
             {
-                tileImages[i] = new Bitmap(Bitmap.FromFile(filePaths[i]));
-                filePaths[i] = filePaths[i].Substring(tileDirectory.Length, (filePaths[i].Length - tileDirectory.Length) - 4);
-                
-                int underscoreLocation = filePaths[i].IndexOf("_");
+                filePaths = Directory.GetFiles(tileDirectory, "*.bmp");
+                tileImages = new Bitmap[filePaths.Length];
+                tileAssociation = new string[filePaths.Length];
 
-                string tempName = filePaths[i].Substring(0, underscoreLocation);
-                tileAssociation[i] = tempName;
+                for (int i = 0; i < filePaths.Length; i++)
+                {
+                    tileImages[i] = new Bitmap(Bitmap.FromFile(filePaths[i]));
+                    filePaths[i] = filePaths[i].Substring(tileDirectory.Length, (filePaths[i].Length - tileDirectory.Length) - 4);
+
+                    int underscoreLocation = filePaths[i].IndexOf("_");
+
+                    string tempName = filePaths[i].Substring(0, underscoreLocation);
+                    tileAssociation[i] = tempName;
+                }
+
+                tileListBox.Items.Clear();
+                tileListBox.Items.AddRange(filePaths);
+                return true;
             }
-
-            tileListBox.Items.Clear();
-            tileListBox.Items.AddRange(filePaths);
-            return true;
+            else
+            {
+                return false;
+            }
         }
 
         private bool populateDefsList()
         {
             string defsDirectory = (_workingDirectory + @"\settings\");
-            string[] configPaths = Directory.GetFiles(defsDirectory, "*.cfg");
+            string[] configPaths;
 
             if(Directory.Exists(defsDirectory))
             {
+                configPaths = Directory.GetFiles(defsDirectory, "*.cfg");
+
                 if(configPaths.Length > 0)
                 {
                     for (int i = 0; i < configPaths.Length; i++)
@@ -79,13 +89,13 @@ namespace Universal_Map_Editor
                 {
                     return false;
                 }
+
+                return true;
             }
             else
             {
                 return false;
             }
-
-            return true;
         }
 
         private bool loadSettings()
@@ -346,8 +356,17 @@ namespace Universal_Map_Editor
             bGraphics = displayPanel.CreateGraphics();
             dBuffer = new DoubleBuffer();
             dBuffer.CreateBuffer(bGraphics, displayPanel.Width, displayPanel.Height);
-            
-            populateTileList();
+
+            if (populateTileList())
+            {
+                // Definitions loaded successfully
+                //MessageBox.Show("Definitions loaded.");
+            }
+            else
+            {
+                MessageBox.Show("No tiles found in the /tiles/ folder.");
+                Environment.Exit(0);
+            }
 
             if (populateDefsList())
             {
@@ -356,8 +375,8 @@ namespace Universal_Map_Editor
             }
             else
             {
-                MessageBox.Show("Definitions not found.");
-                Form.ActiveForm.Close();
+                MessageBox.Show("No definitions found in the /settings/ folder.");
+                Environment.Exit(0);
             }
 
             if (loadSettings())
@@ -367,8 +386,8 @@ namespace Universal_Map_Editor
             }
             else
             {
-                MessageBox.Show("Settings not found.");
-                Form.ActiveForm.Close();
+                MessageBox.Show("No settings found in the /settings/ folder.");
+                Environment.Exit(0);
             }
 
             // Initialize map
