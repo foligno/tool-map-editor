@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TileMap.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VersionLogForm.cs">
       <SubType>Form</SubType>

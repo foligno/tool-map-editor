@@ -13,9 +13,7 @@ namespace Universal_Map_Editor
         private DoubleBuffer dBuffer;
         private Graphics bGraphics;
 
-        private static int _mapWidth = 100;
-        private static int _mapHeight = 20;
-        private int[,] mapArray = new int[_mapWidth, _mapHeight];
+        private TileMap map = new TileMap(100, 20);
 
         private int tileSize = 16;
         private int mapDrawOffset = 0;
@@ -25,8 +23,10 @@ namespace Universal_Map_Editor
         private bool mapChanged = false;
 
         private string[] filePaths;
-        private string[] _tileAssociation;
+        private string[] tileAssociation;
+
         Bitmap[] tileImages;
+
         #endregion
 
         public MainForm()
@@ -39,7 +39,7 @@ namespace Universal_Map_Editor
             string tileDirectory = (_workingDirectory + @"\tiles\");
             filePaths = Directory.GetFiles(tileDirectory, "*.bmp");
             tileImages = new Bitmap[filePaths.Length];
-            _tileAssociation = new string[filePaths.Length];
+            tileAssociation = new string[filePaths.Length];
 
             for (int i = 0; i < filePaths.Length; i++)
             {
@@ -49,7 +49,7 @@ namespace Universal_Map_Editor
                 int underscoreLocation = filePaths[i].IndexOf("_");
 
                 string tempName = filePaths[i].Substring(0, underscoreLocation);
-                _tileAssociation[i] = tempName;
+                tileAssociation[i] = tempName;
             }
 
             tileListBox.Items.Clear();
@@ -152,9 +152,9 @@ namespace Universal_Map_Editor
         {
             dBuffer.g.FillRectangle(Brushes.Black, 0, 0, displayPanel.Width, displayPanel.Height);
 
-            for (int x = 0; x < _mapWidth; x++)
+            for (int x = 0; x < map.width; x++)
             {
-                for (int y = 0; y < _mapHeight; y++)
+                for (int y = 0; y < map.height; y++)
                 {
                     drawMapTile(x, y);
                 }
@@ -165,13 +165,13 @@ namespace Universal_Map_Editor
 
         private void drawMapTile(int x, int y)
         {
-            if (mapArray[x, y] == 9999)
+            if (map.mapData[x, y] == 9999)
             {
                 dBuffer.g.FillRectangle(Brushes.Black, (x - mapDrawOffset) * tileSize, y * tileSize, tileSize, tileSize);
             }
             else
             {
-                dBuffer.g.DrawImage(tileImages[mapArray[x, y]], (x - mapDrawOffset) * tileSize, y * tileSize, tileSize, tileSize);
+                dBuffer.g.DrawImage(tileImages[map.mapData[x, y]], (x - mapDrawOffset) * tileSize, y * tileSize, tileSize, tileSize);
             }
         }
 
@@ -181,7 +181,7 @@ namespace Universal_Map_Editor
             {
                 if ((e.Location.Y > 0) && (e.Location.Y < displayPanel.Height) && (e.Location.X > 0) && (e.Location.X < displayPanel.Width))
                 {
-                    mapArray[(int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize)] = currentTileType;
+                    map.mapData[(int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize)] = currentTileType;
 
                     drawMapTile((int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize));
 
@@ -196,11 +196,11 @@ namespace Universal_Map_Editor
             currentFile = null;
             currentLoadedFile.Text = "File: None Loaded";
 
-            for (int x = 0; x < _mapWidth; x++)
+            for (int x = 0; x < map.width; x++)
             {
-                for (int y = 0; y < _mapHeight; y++)
+                for (int y = 0; y < map.height; y++)
                 {
-                    mapArray[x, y] = value;
+                    map.mapData[x, y] = value;
                 }
             }
 
@@ -272,15 +272,15 @@ namespace Universal_Map_Editor
             FileStream stream = new FileStream(fileName, FileMode.Create);
             StreamWriter writer = new StreamWriter(stream);
 
-            for (int y = 0; y < _mapHeight; y++)
+            for (int y = 0; y < map.height; y++)
             {
-                for (int x = 0; x < _mapWidth; x++)
+                for (int x = 0; x < map.width; x++)
                 {
                     if (stream.CanWrite)
                     {
-                        writer.Write(_tileAssociation[mapArray[x, y]]);
+                        writer.Write(tileAssociation[map.mapData[x, y]]);
 
-                        if (x < (_mapWidth - 1))
+                        if (x < (map.width - 1))
                         {
                             writer.Write(" ");
                         }
@@ -312,9 +312,9 @@ namespace Universal_Map_Editor
         {
             if (drawingTiles)
             {
-                if (e.X < ((_mapWidth - mapDrawOffset) * tileSize))
+                if (e.X < ((map.width - mapDrawOffset) * tileSize))
                 {
-                    if (e.Y < _mapHeight * tileSize)
+                    if (e.Y < map.height * tileSize)
                     {
                         changeTile(e);
                     }
@@ -331,9 +331,9 @@ namespace Universal_Map_Editor
         {
             drawingTiles = true;
 
-            if (e.X < ((_mapWidth - mapDrawOffset) * tileSize))
+            if (e.X < ((map.width - mapDrawOffset) * tileSize))
             {
-                if (e.Y < _mapHeight * tileSize)
+                if (e.Y < map.height * tileSize)
                 {
                     changeTile(e);
                 }
@@ -409,9 +409,9 @@ namespace Universal_Map_Editor
         private bool loadMapFile(string fileName)
         {
             Vector mapSize = GetMapSize(fileName);
-            _mapWidth = mapSize.X;
-            _mapHeight = mapSize.Y;
-            mapArray = new int[mapSize.X, mapSize.Y];
+            map.width = mapSize.X;
+            map.height = mapSize.Y;
+            map.mapData = new int[mapSize.X, mapSize.Y];
 
             FileStream stream = new FileStream(fileName, FileMode.Open);
             StreamReader reader = new StreamReader(stream);
@@ -435,7 +435,7 @@ namespace Universal_Map_Editor
 
                     if (tile != -1)
                     {
-                        mapArray[x, y] = tile;
+                        map.mapData[x, y] = tile;
                     }
                     else
                     {
@@ -469,9 +469,9 @@ namespace Universal_Map_Editor
 
             while(tileFound == false)
             {
-                if (i < _tileAssociation.Length)
+                if (i < tileAssociation.Length)
                 {
-                    tileFound = Equals(_tileAssociation[i], text);
+                    tileFound = Equals(tileAssociation[i], text);
 
                     i += 1;
                 }
