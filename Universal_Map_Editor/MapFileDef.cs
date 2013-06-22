@@ -15,5 +15,19 @@ namespace Hunter_MapEditor
 
         public string endLineString;
         public bool endLineUsed;
+
+        public bool loadFromFile(string fileName)
+        {
+
+
+            return true;
+        }
+
+        public bool saveToFile()
+        {
+            string fileName = nameIdentifier + fileType;
+
+            return true;
+        }
     }
 }
