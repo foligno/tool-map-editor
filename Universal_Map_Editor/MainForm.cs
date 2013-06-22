@@ -547,7 +547,7 @@ namespace Universal_Map_Editor
             initializeMap(9999);
         }
 
-        private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void tileSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (tileSizeDropDown.SelectedIndex)
             {

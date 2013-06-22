@@ -245,7 +245,7 @@
             "64px"});
             this.tileSizeDropDown.Name = "tileSizeDropDown";
             this.tileSizeDropDown.Size = new System.Drawing.Size(75, 25);
-            this.tileSizeDropDown.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox1_SelectedIndexChanged);
+            this.tileSizeDropDown.SelectedIndexChanged += new System.EventHandler(this.tileSizeComboBox_SelectedIndexChanged);
             // 
             // tileListBox
             // 
