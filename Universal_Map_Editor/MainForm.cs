@@ -568,28 +568,8 @@ namespace Universal_Map_Editor
 
         private void tileSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (tileSizeDropDown.SelectedIndex)
-            {
-                case 0:
-                    tileSize = 12;
-                    break;
-                case 1:
-                    tileSize = 16;
-                    break;
-                case 2:
-                    tileSize = 24;
-                    break;
-                case 3:
-                    tileSize = 32;
-                    break;
-                case 4:
-                    tileSize = 48;
-                    break;
-                case 5:
-                    tileSize = 64;
-                    break;
-            }
-
+            tileSize = int.Parse(tileSizeDropDown.Items[tileSizeDropDown.SelectedIndex].ToString().Remove(2));
+            
             drawMapRegion();
         }
 
