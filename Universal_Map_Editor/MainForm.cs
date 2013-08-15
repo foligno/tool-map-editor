@@ -195,6 +195,15 @@ namespace Universal_Map_Editor
             }
         }
 
+
+        private void clickFillTiles(MouseEventArgs e)
+        {
+            if ((e.Location.Y > 0) && (e.Location.Y < displayPanel.Height) && (e.Location.X > 0) && (e.Location.X < displayPanel.Width))
+            {
+                fillFromTile((int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize));
+            }
+        }
+
         private void changeTile(int x, int y)
         {
             if (currentTileType != 9999)
@@ -203,6 +212,31 @@ namespace Universal_Map_Editor
 
                 drawMapTile(x, y);
 
+                dBuffer.RenderToGraphics(bGraphics);
+                mapChanged = true;
+            }
+        }
+
+        private void fillFromTile(int x, int y)
+        {
+            if (currentTileType != 9999)
+            {
+                // Do the two lines below at each iteration of the fill.
+                map.mapData[x, y] = currentTileType;
+                drawMapTile(x, y);
+
+                //  Example:
+                //  while(whatever)
+                //  {
+                //      map.mapData[x, y] = currentTileType;
+                //      drawMapTile(x, y);
+                //
+                //      Check where the next value is, then set it.
+                //      x = nextXvalue;
+                //      y = nextYvalue;
+                //  }
+
+                // Do this part very last.
                 dBuffer.RenderToGraphics(bGraphics);
                 mapChanged = true;
             }
@@ -347,13 +381,28 @@ namespace Universal_Map_Editor
 
         private void displayPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            drawingTiles = true;
-
-            if (e.X < ((map.width - mapDrawOffset) * tileSize))
+            if (drawingMode == DrawMode.BRUSH)
             {
-                if (e.Y < map.height * tileSize)
+                // Code for drawing a tile.
+                drawingTiles = true;
+
+                if (e.X < ((map.width - mapDrawOffset) * tileSize))
                 {
-                    clickTile(e);
+                    if (e.Y < map.height * tileSize)
+                    {
+                        clickTile(e);
+                    }
+                }
+            }
+            else if (drawingMode == DrawMode.FILL)
+            { 
+                // Code for filling from a tile.
+                if (e.X < ((map.width - mapDrawOffset) * tileSize))
+                {
+                    if (e.Y < map.height * tileSize)
+                    {
+                        clickFillTiles(e);
+                    }
                 }
             }
         }
