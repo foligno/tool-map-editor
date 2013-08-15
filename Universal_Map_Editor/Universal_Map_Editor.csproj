@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawMode.cs" />
     <Compile Include="TileMap.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VersionLogForm.cs">
@@ -123,6 +124,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="layer-grid.ico" />
+    <None Include="Resources\brush.png" />
+    <None Include="Resources\paint.png" />
     <None Include="Repopulate.png" />
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,8 @@ namespace Universal_Map_Editor
         private string[] filePaths;
         private string[] tileAssociation;
 
+        public DrawMode drawingMode;
+
         Bitmap[] tileImages;
 
         #endregion
@@ -185,19 +187,24 @@ namespace Universal_Map_Editor
             }
         }
 
-        private void changeTile(MouseEventArgs e)
+        private void clickTile(MouseEventArgs e)
+        {
+            if ((e.Location.Y > 0) && (e.Location.Y < displayPanel.Height) && (e.Location.X > 0) && (e.Location.X < displayPanel.Width))
+            {
+                changeTile((int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize));
+            }
+        }
+
+        private void changeTile(int x, int y)
         {
             if (currentTileType != 9999)
             {
-                if ((e.Location.Y > 0) && (e.Location.Y < displayPanel.Height) && (e.Location.X > 0) && (e.Location.X < displayPanel.Width))
-                {
-                    map.mapData[(int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize)] = currentTileType;
+                map.mapData[x, y] = currentTileType;
 
-                    drawMapTile((int)(Math.Floor(((float)e.Location.X + ((float)mapDrawOffset * (float)tileSize)) / (float)tileSize)), (int)Math.Floor((float)e.Location.Y / (float)tileSize));
+                drawMapTile(x, y);
 
-                    dBuffer.RenderToGraphics(bGraphics);
-                    mapChanged = true;
-                }
+                dBuffer.RenderToGraphics(bGraphics);
+                mapChanged = true;
             }
         }
 
@@ -216,6 +223,7 @@ namespace Universal_Map_Editor
 
             drawMapRegion();
             mapChanged = false;
+            drawingMode = DrawMode.BRUSH;
         }
         #endregion
 
@@ -326,7 +334,7 @@ namespace Universal_Map_Editor
                 {
                     if (e.Y < map.height * tileSize)
                     {
-                        changeTile(e);
+                        clickTile(e);
                     }
                 }
             }
@@ -345,7 +353,7 @@ namespace Universal_Map_Editor
             {
                 if (e.Y < map.height * tileSize)
                 {
-                    changeTile(e);
+                    clickTile(e);
                 }
             }
         }
@@ -596,6 +604,16 @@ namespace Universal_Map_Editor
         private void openTileFolderButton_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(@"Explorer.exe", _workingDirectory + "\\tiles");
+        }
+
+        private void fillToolMode_Click(object sender, EventArgs e)
+        {
+            drawingMode = DrawMode.FILL;
+        }
+
+        private void brushToolMode_Click(object sender, EventArgs e)
+        {
+            drawingMode = DrawMode.BRUSH;
         }
     }
 }

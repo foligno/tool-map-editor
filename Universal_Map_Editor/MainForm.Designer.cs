@@ -46,7 +46,6 @@
             this.informationBar = new System.Windows.Forms.StatusStrip();
             this.currentLoadedFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
-            this.brushModeButton = new System.Windows.Forms.ToolStripButton();
             this.mapDefLabel = new System.Windows.Forms.ToolStripLabel();
             this.mapDefDropDown = new System.Windows.Forms.ToolStripComboBox();
             this.tileSizeLabel = new System.Windows.Forms.ToolStripLabel();
@@ -55,10 +54,12 @@
             this.tilesPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openTileFolderButton = new System.Windows.Forms.ToolStripMenuItem();
             this.imageListLabel = new System.Windows.Forms.Label();
-            this.repopTileListButton = new System.Windows.Forms.Button();
             this.displayPanel = new System.Windows.Forms.Panel();
             this.mapScrollBar = new System.Windows.Forms.HScrollBar();
             this.mapDivider = new System.Windows.Forms.SplitContainer();
+            this.repopTileListButton = new System.Windows.Forms.Button();
+            this.brushToolMode = new System.Windows.Forms.ToolStripButton();
+            this.fillToolMode = new System.Windows.Forms.ToolStripButton();
             this.mainMenuStrip.SuspendLayout();
             this.informationBar.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
@@ -193,7 +194,8 @@
             // 
             this.mainToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.brushModeButton,
+            this.brushToolMode,
+            this.fillToolMode,
             this.mapDefLabel,
             this.mapDefDropDown,
             this.tileSizeLabel,
@@ -204,15 +206,6 @@
             this.mainToolStrip.Size = new System.Drawing.Size(1022, 25);
             this.mainToolStrip.TabIndex = 1;
             this.mainToolStrip.Text = "toolStrip1";
-            // 
-            // brushModeButton
-            // 
-            this.brushModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.brushModeButton.Image = ((System.Drawing.Image)(resources.GetObject("brushModeButton.Image")));
-            this.brushModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.brushModeButton.Name = "brushModeButton";
-            this.brushModeButton.Size = new System.Drawing.Size(23, 22);
-            this.brushModeButton.Text = "Brush Mode";
             // 
             // mapDefLabel
             // 
@@ -281,18 +274,6 @@
             this.imageListLabel.TabIndex = 5;
             this.imageListLabel.Text = "Available Tiles:";
             // 
-            // repopTileListButton
-            // 
-            this.repopTileListButton.Image = global::Universal_Map_Editor.Properties.Resources.Repopulate;
-            this.repopTileListButton.Location = new System.Drawing.Point(133, 3);
-            this.repopTileListButton.Name = "repopTileListButton";
-            this.repopTileListButton.Size = new System.Drawing.Size(72, 23);
-            this.repopTileListButton.TabIndex = 6;
-            this.repopTileListButton.Text = "Refresh";
-            this.repopTileListButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.repopTileListButton.UseVisualStyleBackColor = true;
-            this.repopTileListButton.Click += new System.EventHandler(this.repopTileListButton_Click);
-            // 
             // displayPanel
             // 
             this.displayPanel.AutoScroll = true;
@@ -338,6 +319,38 @@
             this.mapDivider.Size = new System.Drawing.Size(1022, 503);
             this.mapDivider.SplitterDistance = 810;
             this.mapDivider.TabIndex = 1;
+            // 
+            // repopTileListButton
+            // 
+            this.repopTileListButton.Image = global::Universal_Map_Editor.Properties.Resources.Repopulate;
+            this.repopTileListButton.Location = new System.Drawing.Point(133, 3);
+            this.repopTileListButton.Name = "repopTileListButton";
+            this.repopTileListButton.Size = new System.Drawing.Size(72, 23);
+            this.repopTileListButton.TabIndex = 6;
+            this.repopTileListButton.Text = "Refresh";
+            this.repopTileListButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.repopTileListButton.UseVisualStyleBackColor = true;
+            this.repopTileListButton.Click += new System.EventHandler(this.repopTileListButton_Click);
+            // 
+            // brushToolMode
+            // 
+            this.brushToolMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.brushToolMode.Image = global::Universal_Map_Editor.Properties.Resources.brush;
+            this.brushToolMode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.brushToolMode.Name = "brushToolMode";
+            this.brushToolMode.Size = new System.Drawing.Size(23, 22);
+            this.brushToolMode.Text = "Brush Mode";
+            this.brushToolMode.Click += new System.EventHandler(this.brushToolMode_Click);
+            // 
+            // fillToolMode
+            // 
+            this.fillToolMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fillToolMode.Image = global::Universal_Map_Editor.Properties.Resources.paint;
+            this.fillToolMode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fillToolMode.Name = "fillToolMode";
+            this.fillToolMode.Size = new System.Drawing.Size(23, 22);
+            this.fillToolMode.Text = "Fill Mode";
+            this.fillToolMode.Click += new System.EventHandler(this.fillToolMode_Click);
             // 
             // MainForm
             // 
@@ -404,9 +417,10 @@
         private System.Windows.Forms.Panel displayPanel;
         private System.Windows.Forms.HScrollBar mapScrollBar;
         private System.Windows.Forms.SplitContainer mapDivider;
-        private System.Windows.Forms.ToolStripButton brushModeButton;
+        private System.Windows.Forms.ToolStripButton brushToolMode;
         private System.Windows.Forms.ContextMenuStrip tilesPopupMenu;
         private System.Windows.Forms.ToolStripMenuItem openTileFolderButton;
+        private System.Windows.Forms.ToolStripButton fillToolMode;
     }
 }
 

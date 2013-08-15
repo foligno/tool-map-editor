@@ -121,4 +121,10 @@
   <data name="Repopulate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Repopulate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="paint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\paint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="brush" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\brush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
