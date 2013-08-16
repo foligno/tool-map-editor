@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -72,11 +73,11 @@ namespace Universal_Map_Editor
             string defsDirectory = (_workingDirectory + @"\settings\");
             string[] configPaths;
 
-            if(Directory.Exists(defsDirectory))
+            if (Directory.Exists(defsDirectory))
             {
                 configPaths = Directory.GetFiles(defsDirectory, "*.cfg");
 
-                if(configPaths.Length > 0)
+                if (configPaths.Length > 0)
                 {
                     for (int i = 0; i < configPaths.Length; i++)
                     {
@@ -116,7 +117,7 @@ namespace Universal_Map_Editor
                 {
                     textLine = reader.ReadLine();
 
-                    if(textLine.ToLower().StartsWith("tilesize:"))
+                    if (textLine.ToLower().StartsWith("tilesize:"))
                     {
                         textPart = textLine.Remove(0, 9);
                         tileSizeDropDown.SelectedIndex = int.Parse(textPart);
@@ -142,7 +143,7 @@ namespace Universal_Map_Editor
             {
                 FileStream stream = new FileStream(settingsPath, FileMode.Open);
                 StreamWriter writer = new StreamWriter(stream);
-                
+
                 if (stream.CanWrite)
                 {
                     writer.Write("tilesize:" + tileSizeDropDown.SelectedIndex);
@@ -222,19 +223,86 @@ namespace Universal_Map_Editor
             if (currentTileType != 9999)
             {
                 // Do the two lines below at each iteration of the fill.
-                map.mapData[x, y] = currentTileType;
-                drawMapTile(x, y);
 
-                //  Example:
-                //  while(whatever)
-                //  {
-                //      map.mapData[x, y] = currentTileType;
-                //      drawMapTile(x, y);
-                //
-                //      Check where the next value is, then set it.
-                //      x = nextXvalue;
-                //      y = nextYvalue;
-                //  }
+                Stack<Vector> mapPositions = new Stack<Vector>();
+                bool filled = false;
+
+                // Set the colour that the fill will replace.
+                int replaceTile = map.mapData[x, y];
+
+                // Add the initial position to the list.
+                mapPositions.Push(new Vector(x, y));
+
+                while (!filled)
+                {
+                    Vector temp;
+
+                    try
+                    {
+                        temp = mapPositions.Pop();
+                    }
+                    catch
+                    {
+                        temp = null;
+                    }
+
+                    if (temp != null)
+                    {
+                        x = temp.X;
+                        y = temp.Y;
+
+                        map.mapData[x, y] = currentTileType;
+                        drawMapTile(x, y);
+
+                        if (x > 0)
+                        {
+                            if (map.mapData[x - 1, y] == replaceTile)
+                            {
+                                if (map.mapData[x - 1, y] != currentTileType)
+                                {
+                                    mapPositions.Push(new Vector(x - 1, y));
+                                }
+                            }
+                        }
+
+                        if (x < (map.width - 1))
+                        {
+                            if (map.mapData[x + 1, y] == replaceTile)
+                            {
+                                if (map.mapData[x + 1, y] != currentTileType)
+                                {
+                                    mapPositions.Push(new Vector(x + 1, y));
+                                }
+                            }
+                        }
+
+                        if (y < (map.height - 1))
+                        {
+                            if (map.mapData[x, y + 1] == replaceTile)
+                            {
+                                if (map.mapData[x, y + 1] != currentTileType)
+                                {
+                                    mapPositions.Push(new Vector(x, y + 1));
+                                }
+                            }
+                        }
+
+                        if (y> 0)
+                        {
+                            if (map.mapData[x, y - 1] == replaceTile)
+                            {
+                                if (map.mapData[x, y - 1] != currentTileType)
+                                {
+                                    mapPositions.Push(new Vector(x, y - 1));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        filled = true;
+                    }
+                }
 
                 // Do this part very last.
                 dBuffer.RenderToGraphics(bGraphics);
@@ -352,7 +420,7 @@ namespace Universal_Map_Editor
             Form.ActiveForm.Close();
         }
         #endregion
-        
+
         #region Form Events
         private void mapScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
@@ -395,7 +463,7 @@ namespace Universal_Map_Editor
                 }
             }
             else if (drawingMode == DrawMode.FILL)
-            { 
+            {
                 // Code for filling from a tile.
                 if (e.X < ((map.width - mapDrawOffset) * tileSize))
                 {
@@ -543,7 +611,7 @@ namespace Universal_Map_Editor
             int i = 0;
             bool tileFound = false;
 
-            while(tileFound == false)
+            while (tileFound == false)
             {
                 if (i < tileAssociation.Length)
                 {
@@ -557,7 +625,7 @@ namespace Universal_Map_Editor
                 }
             }
 
-            return (i-1);
+            return (i - 1);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -607,7 +675,7 @@ namespace Universal_Map_Editor
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(tileListBox.SelectedIndex < filePaths.Length)
+            if (tileListBox.SelectedIndex < filePaths.Length)
             {
                 currentTileType = tileListBox.SelectedIndex;
             }
@@ -626,7 +694,7 @@ namespace Universal_Map_Editor
         private void tileSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             tileSize = int.Parse(tileSizeDropDown.Items[tileSizeDropDown.SelectedIndex].ToString().Remove(2));
-            
+
             drawMapRegion();
         }
 
