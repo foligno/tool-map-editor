@@ -46,6 +46,8 @@
             this.informationBar = new System.Windows.Forms.StatusStrip();
             this.currentLoadedFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+            this.brushToolMode = new System.Windows.Forms.ToolStripButton();
+            this.fillToolMode = new System.Windows.Forms.ToolStripButton();
             this.mapDefLabel = new System.Windows.Forms.ToolStripLabel();
             this.mapDefDropDown = new System.Windows.Forms.ToolStripComboBox();
             this.tileSizeLabel = new System.Windows.Forms.ToolStripLabel();
@@ -58,8 +60,6 @@
             this.mapScrollBar = new System.Windows.Forms.HScrollBar();
             this.mapDivider = new System.Windows.Forms.SplitContainer();
             this.repopTileListButton = new System.Windows.Forms.Button();
-            this.brushToolMode = new System.Windows.Forms.ToolStripButton();
-            this.fillToolMode = new System.Windows.Forms.ToolStripButton();
             this.mainMenuStrip.SuspendLayout();
             this.informationBar.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
@@ -207,6 +207,26 @@
             this.mainToolStrip.TabIndex = 1;
             this.mainToolStrip.Text = "toolStrip1";
             // 
+            // brushToolMode
+            // 
+            this.brushToolMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.brushToolMode.Image = global::Universal_Map_Editor.Properties.Resources.brush;
+            this.brushToolMode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.brushToolMode.Name = "brushToolMode";
+            this.brushToolMode.Size = new System.Drawing.Size(23, 22);
+            this.brushToolMode.Text = "Brush Mode";
+            this.brushToolMode.Click += new System.EventHandler(this.brushToolMode_Click);
+            // 
+            // fillToolMode
+            // 
+            this.fillToolMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fillToolMode.Image = global::Universal_Map_Editor.Properties.Resources.paint;
+            this.fillToolMode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fillToolMode.Name = "fillToolMode";
+            this.fillToolMode.Size = new System.Drawing.Size(23, 22);
+            this.fillToolMode.Text = "Fill Mode";
+            this.fillToolMode.Click += new System.EventHandler(this.fillToolMode_Click);
+            // 
             // mapDefLabel
             // 
             this.mapDefLabel.Name = "mapDefLabel";
@@ -331,26 +351,6 @@
             this.repopTileListButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.repopTileListButton.UseVisualStyleBackColor = true;
             this.repopTileListButton.Click += new System.EventHandler(this.repopTileListButton_Click);
-            // 
-            // brushToolMode
-            // 
-            this.brushToolMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.brushToolMode.Image = global::Universal_Map_Editor.Properties.Resources.brush;
-            this.brushToolMode.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.brushToolMode.Name = "brushToolMode";
-            this.brushToolMode.Size = new System.Drawing.Size(23, 22);
-            this.brushToolMode.Text = "Brush Mode";
-            this.brushToolMode.Click += new System.EventHandler(this.brushToolMode_Click);
-            // 
-            // fillToolMode
-            // 
-            this.fillToolMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.fillToolMode.Image = global::Universal_Map_Editor.Properties.Resources.paint;
-            this.fillToolMode.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fillToolMode.Name = "fillToolMode";
-            this.fillToolMode.Size = new System.Drawing.Size(23, 22);
-            this.fillToolMode.Text = "Fill Mode";
-            this.fillToolMode.Click += new System.EventHandler(this.fillToolMode_Click);
             // 
             // MainForm
             // 
