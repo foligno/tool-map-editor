@@ -7,7 +7,7 @@ To begin with, the definition file was going to have [these settings](https://gi
 
 Currently, the editor can display a 2D editor with draw/fill/zoom functionality.
 
-![alt tag](https://raw.githubusercontent.com/rfoligno/tool-map-editor/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/rfoligno/tool-map-editor/master/screenshot.png)
 
 ===
 
