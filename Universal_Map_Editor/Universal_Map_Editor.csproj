@@ -126,7 +126,7 @@
     <Content Include="layer-grid.ico" />
     <None Include="Resources\brush.png" />
     <None Include="Resources\paint.png" />
-    <None Include="Repopulate.png" />
+    <None Include="Resources\repopulate.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
