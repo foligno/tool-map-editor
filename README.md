@@ -5,7 +5,7 @@ An application for editing maps.
 The general idea for this application was that each map type would have a definition file that represents what features each map contains.
 To begin with, the definition file was going to have [these settings](https://github.com/rfoligno/tool-map-editor/blob/master/Universal_Map_Editor/MapFileDef.cs), which would allow for some basic variation for maps.
 
-Currently, the editor can display a 2D editor with draw/fill/zoom functionality.
+Currently, the editor can display a 2D editor with draw/fill/zoom functionality with save/load for basic maps.
 
 ![Screenshot](https://raw.githubusercontent.com/rfoligno/tool-map-editor/master/screenshot.png)
 
